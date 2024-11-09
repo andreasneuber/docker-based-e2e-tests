@@ -1,0 +1,16 @@
+stages:
+  - test
+
+test:
+  stage: test
+  image: docker:latest
+  services:
+    - docker:dind
+  script:
+    - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
+    - docker run -d -p 8000:8000 $TEST_SITE_CONTAINER php -S 0.0.0.0:8000
+
+    - apk add curl
+    - curl http://docker:8000
+
+    - docker run --rm --net="host" $PLAYWRIGHT_TESTS npm run test:normal
