@@ -1,5 +1,6 @@
 stages:
   - test
+  - artifacts
 
 test:
   stage: test
@@ -8,9 +9,17 @@ test:
     - docker:dind
   script:
     - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
-    - docker run -d -p 8000:8000 $TEST_SITE_CONTAINER php -S 0.0.0.0:8000
+    - docker pull $APP_UNDER_TEST_IMAGE
+    - docker run -d -p 8000:8000 $APP_UNDER_TEST_IMAGE php -S 0.0.0.0:8000
 
     - apk add curl
     - curl http://docker:8000
 
-    - docker run --rm --net="host" $PLAYWRIGHT_TESTS npm run test:normal
+    - docker pull $UI_TESTS_IMAGE
+    - docker run --net="host" --name playwright-cucumber-js-docker $UI_TESTS_IMAGE /bin/bash -c "npm run test:normal && npm run report"
+    - docker cp playwright-cucumber-js-docker:/app/reports/cucumber_report.html test-reports/cucumber_report.html
+    - mv test-reports/cucumber_report.html test-reports/$(date "+%Y.%m.%d-%H.%M.%S")_cucumber_report.html
+  artifacts:
+    paths:
+      - /builds/andreasneuber/docker-based-ui-tests/test-reports/
+    expire_in: 1 week
