@@ -2,6 +2,9 @@ stages:
   - test
   - artifacts
 
+variables:
+  path_to_test_report_directory: "${CI_PROJECT_DIR}/test-reports/"
+
 test:
   stage: test
   image: docker:latest
@@ -19,7 +22,8 @@ test:
     - docker run --net="host" --name playwright-cucumber-js-docker $UI_TESTS_IMAGE /bin/bash -c "npm run test:normal && npm run report"
     - docker cp playwright-cucumber-js-docker:/app/reports/cucumber_report.html test-reports/cucumber_report.html
     - mv test-reports/cucumber_report.html test-reports/$(date "+%Y.%m.%d-%H.%M.%S")_cucumber_report.html
+
   artifacts:
     paths:
-      - /builds/andreasneuber/docker-based-ui-tests/test-reports/
+      - $path_to_test_report_directory
     expire_in: 1 week
