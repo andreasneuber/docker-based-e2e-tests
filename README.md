@@ -1,7 +1,7 @@
-# Docker Based UI Tests
+# Docker Based End-to-End Tests
 
 ## Idea. What does this do?
-We want to run UI tests in a Gitlab pipeline using Docker in Docker (DinD).
+We want to run End-to-End tests in a Gitlab pipeline using Docker in Docker (DinD).
 - The "application under test" runs in a Docker container.  
 - The tests itself run also in a Docker container and are directed to the "application under test" container.
 - The test report is being copied from the tests container into the build directory of the GitLab pipeline and saved as artifact.
