@@ -16,7 +16,7 @@ We want to run End-to-End tests in a Gitlab pipeline using Docker in Docker (Din
 - Create two variables `$TEST_SITE_CONTAINER` and `$TEST` in GitLab settings, values are the containers listed in the [Container Registry](https://gitlab.com/andreasneuber/ruby-cucumber-selenium-framework/container_registry)
 - Run a pipeline using `.gitlab-ci.yml`
 
-### Creating Docker image of repo via a pipeline
+### Creating/Refreshing Docker image of a GitLab repo via a pipeline
 ```
 image: docker:latest
 
