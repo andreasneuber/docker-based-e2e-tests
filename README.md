@@ -1,10 +1,10 @@
 # Docker Based End-to-End Tests
 
 ## Idea. What does this do?
-We want to run End-to-End tests in a Gitlab pipeline using Docker in Docker (DinD).
+We want to run end-to-end tests in a GitLab pipeline using Docker-in-Docker (DinD).
 - The "application under test" runs in a Docker container.  
-- The tests itself run also in a Docker container and are aimed to the "application under test" container.
-- The test report is being copied from the tests container into the build directory of the GitLab pipeline and saved as artifact.
+- The tests also run in a separate Docker container and are directed at the 'application under test' container.
+- The test report is copied from the test container into the build directory of the GitLab pipeline and saved as an artifact.
 
 ## Steps
 - Create a docker container with your application under test (see Dockerfile in https://github.com/andreasneuber/automatic-test-sample-site)
