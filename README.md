@@ -42,3 +42,12 @@ build_image:
 ## Links
 - [Docker Compose - How to execute multiple commands?](https://stackoverflow.com/questions/30063907/docker-compose-how-to-execute-multiple-commands)
 - [GitLab artifacts](https://docs.gitlab.com/ee/ci/jobs/job_artifacts.html)
+
+## FAQ
+
+### Why not install the application-under-test and the tests directly in the GitLab pipeline, instead of using Docker Containers?
+1) Imagine your application-under-test runs on PHP 8.1, but the tests require PHP 8.4.  
+Using Docker Containers will keep the two versions apart.  
+
+2) Imagine your application under test is in a separate repository.  
+Cloning it inside a pipeline is possible, but requires extra effort to ensure credentials are not exposed.
